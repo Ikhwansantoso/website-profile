@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/i18n/LanguageContext";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -9,8 +10,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Portfolio | Tech Developer",
-  description: "Professional portfolio showcasing Web, Mobile, Game Dev, and XR skills.",
+  title: "Muhammad Ikhwan Ma'ruf Santoso | Frontend, Backend & Mobile Developer",
+  description:
+    "Portfolio of Muhammad Ikhwan Ma'ruf Santoso, Informatics student at ITS who builds websites and Android apps.",
 };
 
 export default function RootLayout({
@@ -19,9 +21,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`scroll-smooth ${poppins.variable} antialiased`}>
+    <html lang="id" className={`scroll-smooth ${poppins.variable} antialiased`}>
       <body className="min-h-full flex flex-col font-sans text-slate-800 bg-white">
-        {children}
+        <LanguageProvider>{children}</LanguageProvider>
       </body>
     </html>
   );

@@ -2,24 +2,30 @@
 
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Download } from "lucide-react";
 import Image from "next/image";
 import { FaGithub, FaLinkedin, FaInstagram, FaTiktok } from "react-icons/fa";
+import { useLanguage } from "@/i18n/LanguageContext";
+import { socials, cv } from "@/data/socials";
+
+const socialLinks = [
+  { href: socials.github, label: "GitHub", Icon: FaGithub },
+  { href: socials.linkedin, label: "LinkedIn", Icon: FaLinkedin },
+  { href: socials.instagram, label: "Instagram", Icon: FaInstagram },
+  { href: socials.tiktok, label: "TikTok", Icon: FaTiktok },
+].filter((link) => link.href);
 
 export default function Hero() {
+  const { t } = useLanguage();
+  const roles = t.hero.roles;
   const [roleIndex, setRoleIndex] = useState(0);
-  const roles = [
-    "Software Engineer",
-    "UI/UX Designer",
-    "Mobile App Developer",
-  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
       setRoleIndex((prev) => (prev + 1) % roles.length);
     }, 2500);
     return () => clearInterval(interval);
-  }, []);
+  }, [roles.length]);
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center pt-32 pb-12 overflow-hidden bg-white z-0">
@@ -38,14 +44,14 @@ export default function Hero() {
           className="max-w-2xl"
         >
           <h2 className="text-slate-500 font-semibold tracking-[0.2em] uppercase text-xs md:text-sm mb-4">
-            Halo, Saya
+            {t.hero.greeting}
           </h2>
           <h1 className="text-3xl md:text-4xl lg:text-4xl font-bold mb-4 leading-tight text-slate-900">
             Muhammad Ikhwan <br />
-            Ma'ruf Santoso
+            Ma&apos;ruf Santoso
           </h1>
           <h3 className="text-lg md:text-xl font-bold mb-8 text-slate-700">
-            Saya seorang <br />
+            {t.hero.iAm} <br />
             <div className="h-[32px] md:h-[36px] mt-1 flex items-start overflow-hidden">
               <AnimatePresence mode="wait">
                 <motion.span
@@ -62,15 +68,30 @@ export default function Hero() {
             </div>
           </h3>
           
-          <div className="flex gap-6 mb-8 text-slate-400">
-            <a href="#" className="hover:text-brand-500 transition-colors"><FaGithub size={26} /></a>
-            <a href="#" className="hover:text-brand-500 transition-colors"><FaLinkedin size={26} /></a>
-            <a href="#" className="hover:text-brand-500 transition-colors"><FaInstagram size={26} /></a>
-            <a href="#" className="hover:text-brand-500 transition-colors"><FaTiktok size={26} /></a>
+          <div className="flex flex-wrap items-center gap-6 mb-8 text-slate-400">
+            {socialLinks.map(({ href, label, Icon }) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={label}
+                className="hover:text-brand-500 transition-colors"
+              >
+                <Icon size={26} />
+              </a>
+            ))}
+            <a
+              href={cv.href}
+              download={cv.fileName}
+              className="flex items-center gap-2 px-4 py-2 rounded-full border-2 border-slate-200 text-sm font-semibold text-slate-600 hover:border-brand-500 hover:text-brand-500 transition-colors"
+            >
+              <Download size={18} /> {t.hero.cv}
+            </a>
           </div>
 
           <p className="text-lg text-slate-600 mb-10 max-w-xl">
-            Saya membantu bisnis dan individu mengubah ide menjadi solusi digital yang indah dan berfungsi.
+            {t.hero.tagline}
           </p>
           
           <div className="flex flex-col sm:flex-row items-start gap-4">
@@ -78,13 +99,13 @@ export default function Hero() {
               href="#projects"
               className="px-8 py-4 bg-brand-500 text-white rounded-full font-medium hover:bg-brand-600 transition-colors flex items-center justify-center gap-2 shadow-lg shadow-brand-500/30"
             >
-              Lihat Proyek <ArrowRight size={20} />
+              {t.hero.viewProjects} <ArrowRight size={20} />
             </a>
             <a
               href="#contact"
               className="px-8 py-4 bg-white text-slate-900 border-2 border-slate-200 rounded-full font-medium hover:border-brand-500 hover:text-brand-500 transition-colors text-center"
             >
-              Kontak Saya
+              {t.hero.contactMe}
             </a>
           </div>
         </motion.div>
@@ -133,7 +154,7 @@ export default function Hero() {
                   </div>
                 </div>
                 <a href="#contact" className="px-3 py-2 bg-brand-600 text-white text-xs font-bold rounded-xl hover:bg-brand-700 shadow-md shadow-brand-600/20 transition-all active:scale-95">
-                  Contact
+                  {t.hero.contact}
                 </a>
               </div>
             </div>

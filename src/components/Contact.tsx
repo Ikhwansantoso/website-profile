@@ -2,12 +2,14 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { Mail, Copy, Check } from "lucide-react";
+import { Mail, Copy, Check, Download } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
+import { useLanguage } from "@/i18n/LanguageContext";
+import { socials, email, cv } from "@/data/socials";
 
 export default function Contact() {
+  const { t } = useLanguage();
   const [copied, setCopied] = useState(false);
-  const email = "ikhwanti1815@gmail.com";
 
   const handleCopyEmail = () => {
     navigator.clipboard.writeText(email);
@@ -25,14 +27,14 @@ export default function Contact() {
           transition={{ duration: 0.5 }}
           className="max-w-2xl mx-auto"
         >
-          <h2 className="text-3xl md:text-4xl font-bold mb-6">Let's Connect</h2>
+          <h2 className="text-3xl md:text-4xl font-bold mb-6">{t.contact.title}</h2>
           <p className="text-brand-50 mb-10 text-lg">
-            Whether you have a question, a project idea, or just want to say hi, I'll try my best to get back to you!
+            {t.contact.subtitle}
           </p>
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 mb-12">
             <a
-              href="https://github.com/Ikhwansantoso"
+              href={socials.github}
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full transition-colors"
@@ -40,12 +42,19 @@ export default function Contact() {
               <FaGithub size={20} /> GitHub
             </a>
             <a
-              href="https://www.linkedin.com/in/ikhwanmaruf"
+              href={socials.linkedin}
               target="_blank"
               rel="noreferrer"
               className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full transition-colors"
             >
               <FaLinkedin size={20} /> LinkedIn
+            </a>
+            <a
+              href={cv.href}
+              download={cv.fileName}
+              className="flex items-center gap-2 bg-white/10 hover:bg-white/20 px-6 py-3 rounded-full transition-colors"
+            >
+              <Download size={20} /> {t.hero.cv}
             </a>
           </div>
 
@@ -57,7 +66,8 @@ export default function Contact() {
             <button
               onClick={handleCopyEmail}
               className="ml-2 sm:ml-4 text-brand-100 hover:text-white transition-colors"
-              title="Copy to clipboard"
+              title={t.contact.copy}
+              aria-label={t.contact.copy}
             >
               {copied ? <Check size={20} /> : <Copy size={20} />}
             </button>
